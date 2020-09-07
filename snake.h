@@ -8,7 +8,7 @@ class Snake
 public:
     Snake();
     void init(int width,int height,int interval);
-    bool checkEatApple();
+    bool checkEatApple(int a_x,int a_y);
     bool checkBodyCollision();
     bool checkWallCollision();
     void redrawSnake(QPainter *snakeImage);

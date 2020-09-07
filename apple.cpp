@@ -18,12 +18,12 @@ void Apple::init(int width,int height,int inter) {
 
 void Apple::redrawApple(QPainter *appleImage) {
     appleImage->setBrush(QBrush(Qt::red));
-    appleImage->drawEllipse(QRect(400,400,interval,interval));
+    appleImage->drawEllipse(QRect(x,y,interval,interval));
 }
 
 void Apple::updatePosition() {
-    x = rand() % x_max;
-    y = rand() % y_max;
+    x = interval*(rand() % x_max/interval);
+    y = interval*(rand() % y_max/interval);
 
 //    qDebug() << "X Max = " << x_max;
 //    qDebug() << "Y Max = " << y_max;

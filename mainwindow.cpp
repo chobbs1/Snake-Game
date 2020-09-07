@@ -11,8 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     this->init();
-    snake.init(HEIGHT_SCREEN,WIDTH_SCREEN,INTERVAL);
-    apple.init(HEIGHT_SCREEN,WIDTH_SCREEN,INTERVAL);
+    snake.init(WIDTH_SCREEN,HEIGHT_SCREEN,INTERVAL);
+    apple.init(WIDTH_SCREEN,HEIGHT_SCREEN,INTERVAL);
 
     repaint();
 
@@ -26,16 +26,22 @@ void MainWindow::gameUpdate() {
     if(snake.checkBodyCollision() || snake.checkWallCollision()) {
         qDebug() << "Game Over!";
         timer->stop();
+        return;
     }
+//    qDebug() << "Apple x:" << apple.x;
+//    qDebug() << "Apple y:" << apple.y;
 
-    if(snake.checkEatApple()) {
+//    qDebug() << "Snake x:" << snake.head_x;
+//    qDebug() << "Snake y:" << snake.head_y;
+
+    if(snake.checkEatApple(apple.x,apple.y)) {
         apple.updatePosition();
-        this->updateScore();
+        score++;
+        GAME_CLK_SPEED += 10;
     }
 
     snake.updatePosition();
     repaint();
-    timer->stop();
 }
 
 void MainWindow::updateScore() {
@@ -62,7 +68,7 @@ void MainWindow::init()
     this->redrawScore();
 
     // Setup game clock
-    GAME_CLK_SPEED = 3000;
+    GAME_CLK_SPEED = 100;
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(gameUpdate()));
 }

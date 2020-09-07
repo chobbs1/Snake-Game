@@ -32,29 +32,45 @@ void Snake::init(int width,int height,int inter) {
 
 
 
-//    qDebug() << "Up = " << up;
-//    qDebug() << "Down = " << down;
-//    qDebug() << "Left = " << left;
-//    qDebug() << "Right = " << right;
-//    qDebug() << "X Max = " << x_max;
-//    qDebug() << "Y Max = " << y_max;
-//    qDebug() << "head_x = " << head_x;
-//    qDebug() << "head_y = " << head_y;
-
 }
 
-bool Snake::checkEatApple()
+bool Snake::checkEatApple(int a_x,int a_y)
 {
+    if(head_x == a_x && head_y == a_y) {
+        qDebug() << "Eat Apple!";
+        length++;
+        return true;
+    }
     return false;
 }
 
 bool Snake::checkBodyCollision()
 {
+    for(int i=0;i<length-1;i++) {
+        if(head_x == x_body[i] && head_y == y_body[i]) {
+            return true;
+        }
+    }
     return false;
 }
 
 bool Snake::checkWallCollision()
 {
+
+//    qDebug() << "Head X =" << head_x;
+//    qDebug() << "Head Y =" << head_y;
+//    qDebug() << "X Max: =" << x_max;
+//    qDebug() << "Y Max: =" << y_max;
+
+    if(head_x>=x_max) {
+        return true;
+    } else if(head_x<0) {
+        return true;
+    } else if(head_y>=y_max) {
+        return true;
+    } else if(head_y<0) {
+        return true;
+    }
     return false;
 }
 
@@ -71,5 +87,23 @@ void Snake::redrawSnake(QPainter *snakeImage)
 
 void Snake::updatePosition()
 {
-//    qDebug() << "Update Position";
+    for(int i=length-1;i>0;i--) {
+        x_body[i] = x_body[i-1];
+        y_body[i] = y_body[i-1];
+    }
+
+    x_body[0] = head_x;
+    y_body[0] = head_y;
+
+    if(up) {
+        head_y -= interval;
+    } else if(down) {
+         head_y += interval;
+    } else if(left) {
+        head_x -= interval;
+    } else if(right) {
+        head_x += interval;
+    }
+
+
 }
