@@ -28,6 +28,7 @@ private:
     Apple apple;
     int GAME_CLK_SPEED;
     QTimer *timer;
+    void restartApp();
     void init();
     void updateScore();
     void redrawScore();

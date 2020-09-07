@@ -21,13 +21,13 @@ void Snake::init(int width,int height,int inter) {
     head_x = x_max/2;
     head_y = y_max/2;
 
-    qDebug() << "Head =" << head_x << "," << head_y;
+//    qDebug() << "Head =" << head_x << "," << head_y;
 
     for(int i=0;i<length-1;i++) {
         x_body[i] = head_x;
         y_body[i] = head_y + (i+1)*interval;
 
-        qDebug() << "Body =" << x_body[i] << "," << y_body[i];
+//        qDebug() << "Body =" << x_body[i] << "," << y_body[i];
     }
 
 
@@ -37,7 +37,7 @@ void Snake::init(int width,int height,int inter) {
 bool Snake::checkEatApple(int a_x,int a_y)
 {
     if(head_x == a_x && head_y == a_y) {
-        qDebug() << "Eat Apple!";
+//        qDebug() << "Eat Apple!";
         length++;
         return true;
     }

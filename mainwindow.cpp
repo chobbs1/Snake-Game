@@ -3,6 +3,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QTimer>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,6 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    restartApp();
+}
+
+void MainWindow::restartApp() {
     this->init();
     snake.init(WIDTH_SCREEN,HEIGHT_SCREEN,INTERVAL);
     apple.init(WIDTH_SCREEN,HEIGHT_SCREEN,INTERVAL);
@@ -21,23 +26,29 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 void MainWindow::gameUpdate() {
-    qDebug() << "Tick";
 
     if(snake.checkBodyCollision() || snake.checkWallCollision()) {
-        qDebug() << "Game Over!";
+//        qDebug() << "Game Over!";
         timer->stop();
+        QMessageBox::StandardButton response = QMessageBox::question(this,
+            "Game Over!","Would you like to play again?",
+            QMessageBox::Yes |  QMessageBox::No);
+        if(response == QMessageBox::Yes) {
+            restartApp();
+        } else if(response == QMessageBox::No) {
+            QApplication::quit();
+        }
         return;
-    }
-//    qDebug() << "Apple x:" << apple.x;
-//    qDebug() << "Apple y:" << apple.y;
-
-//    qDebug() << "Snake x:" << snake.head_x;
-//    qDebug() << "Snake y:" << snake.head_y;
+    };
 
     if(snake.checkEatApple(apple.x,apple.y)) {
         apple.updatePosition();
         score++;
-        GAME_CLK_SPEED += 10;
+        if(GAME_CLK_SPEED>50) {
+            GAME_CLK_SPEED -= 2;
+        }
+        timer->stop();
+        timer->start(GAME_CLK_SPEED);
     }
 
     snake.updatePosition();
@@ -99,10 +110,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         snake.right = false;
     }
 
-    qDebug() << "Left" << snake.left;
-    qDebug() << "Right" << snake.right;
-    qDebug() << "Up" << snake.up;
-    qDebug() << "Down" << snake.down;
+//    qDebug() << "Left" << snake.left;
+//    qDebug() << "Right" << snake.right;
+//    qDebug() << "Up" << snake.up;
+//    qDebug() << "Down" << snake.down;
 
 }
 
