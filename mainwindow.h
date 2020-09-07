@@ -2,11 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPainter>
 #include "snake.h"
 #include "apple.h"
-
-#define HEIGHT_SCREEN 800
-#define WIDTH_SCREEN 1000
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,7 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    virtual void paintEvent(QPaintEvent *e);
 public slots:
     void gameUpdate();
 protected:
@@ -34,5 +32,6 @@ private:
     void updateScore();
     void redrawScore();
     int score;
+    int HEIGHT_SCREEN,WIDTH_SCREEN,INTERVAL;
 };
 #endif // MAINWINDOW_H
